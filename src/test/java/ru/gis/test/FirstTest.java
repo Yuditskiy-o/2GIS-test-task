@@ -28,6 +28,7 @@ public class FirstTest {
                 .when()
                 .get(basePath)
                 // Проверки
-                .then().assertThat().statusCode(200);
+                .then().assertThat().statusCode(200)
+                .and().body("items.name", hasItems("Актау"));
     }
 }
