@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "error": {
+                "id": "afe7a32f-b25d-4124-9e13-8ae369b464e7",
+                "message": "Параметр 'q' должен быть не менее 3 символов"
+            }
+        }
+    ],
+    "required": [
+        "error"
+    ],
+    "properties": {
+        "error": {
+            "$id": "#/properties/error",
+            "type": "object",
+            "title": "The error schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "id": "afe7a32f-b25d-4124-9e13-8ae369b464e7",
+                    "message": "Параметр 'q' должен быть не менее 3 символов"
+                }
+            ],
+            "required": [
+                "id",
+                "message"
+            ],
+            "properties": {
+                "id": {
+                    "$id": "#/properties/error/properties/id",
+                    "type": "string",
+                    "title": "The id schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "afe7a32f-b25d-4124-9e13-8ae369b464e7"
+                    ]
+                },
+                "message": {
+                    "$id": "#/properties/error/properties/message",
+                    "type": "string",
+                    "title": "The message schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Параметр 'q' должен быть не менее 3 символов"
+                    ]
+                }
+            }
+        }
+    }
+}

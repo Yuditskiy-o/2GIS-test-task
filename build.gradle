@@ -18,6 +18,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation 'io.rest-assured:rest-assured:4.3.3'
     testImplementation 'io.rest-assured:json-path:4.3.3'
+    implementation group: 'io.rest-assured', name: 'json-schema-validator', version: '3.0.0'
 }
 
 test {
