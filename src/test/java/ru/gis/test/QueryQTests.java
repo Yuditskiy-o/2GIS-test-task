@@ -26,8 +26,6 @@ public class QueryQTests {
 
         @Test
         void shouldCheckIfGetErrorWithOnlyQ() {
-            // Given - When - Then
-            // Предусловия
             given()
                     .spec(requestSpec)
                     .queryParam("q")
@@ -41,8 +39,6 @@ public class QueryQTests {
 
         @Test
         void shouldCheckIfGetErrorWithQAndSign() {
-            // Given - When - Then
-            // Предусловия
             given()
                     .spec(requestSpec)
                     .queryParam("q=")
@@ -56,8 +52,6 @@ public class QueryQTests {
 
         @Test
         void shouldCheckIfGetErrorWithQAnd1Symbol() {
-            // Given - When - Then
-            // Предусловия
             given()
                     .spec(requestSpec)
                     .queryParam("q=а")
@@ -71,8 +65,6 @@ public class QueryQTests {
 
         @Test
         void shouldCheckIfGetErrorWithQAnd2Symbols() {
-            // Given - When - Then
-            // Предусловия
             given()
                     .spec(requestSpec)
                     .queryParam("q=ак")
@@ -90,8 +82,6 @@ public class QueryQTests {
 
         @Test
         void shouldCheckIfSearchWorksWith3CorrectSymbols() {
-            // Given - When - Then
-            // Предусловия
             given()
                     .spec(requestSpec)
                     .queryParam("q=акт")
@@ -104,9 +94,7 @@ public class QueryQTests {
         }
 
         @Test
-        void shouldCheckIfSearchWorksWith3IncorrectSymbols() {
-            // Given - When - Then
-            // Предусловия
+        void shouldCheckIfGetErrorWhereQIs3IncorrectSymbols() {
             given()
                     .spec(requestSpec)
                     .queryParam("q=пол")
@@ -115,7 +103,155 @@ public class QueryQTests {
                     .get(basePath)
                     // Проверки
                     .then().assertThat().statusCode(200)
-                    .and().body(matchesJsonSchemaInClasspath("q/error_schema_with_no_results_were_found.json"));
+                    .and().body(matchesJsonSchemaInClasspath("error_schema_with_no_results_were_found.json"));
+        }
+    }
+
+    @Nested
+    class SuccessfulAndUnsuccessfulSearchForFullNames {
+
+        @Test
+        void shouldCheckIfSearchWorksWithCorrectFullName() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=Новосибирск")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body("items.name", hasItems("Новосибирск"));
+        }
+
+        @Test
+        void shouldCheckIfGetErrorWhereQIsIncorrectFullName() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=Ставрополь")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body(matchesJsonSchemaInClasspath("error_schema_with_no_results_were_found.json"));
+        }
+
+        @Test
+        void shouldCheckIfGetErrorWhereQIsFullNameWith2Symbols() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=Ош")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body(matchesJsonSchemaInClasspath("q/error_schema_with_q_below_3.json"));
+        }
+    }
+
+    @Nested
+    class QWith30andMoreSymbols {
+
+        @Test
+        void shouldCheckIfGetErrorWhereQIs30Symbols() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=Новосибирсккккккккккккккккккк")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body(matchesJsonSchemaInClasspath("error_schema_with_no_results_were_found.json"));
+        }
+
+        @Test
+        void shouldCheckIfGetErrorWhereQIs31Symbols() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=Новосибирскккккккккккккккккккф")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body(matchesJsonSchemaInClasspath("q/error_schema_with_q_more_30.json"));
+        }
+
+        @Test
+        void shouldCheckIfGetErrorWhereQIs50Symbols() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=Новосибирскккккккккккккккккккфыыыыыыыыыыффффффффф")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body(matchesJsonSchemaInClasspath("q/error_schema_with_q_more_30.json"));
+        }
+    }
+
+    @Nested
+    class LowercaseAndUppercaseChecks {
+
+        @Test
+        void shouldCheckIfSearchWorksWithCorrectFullNameInUpperCase() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=НОВОСИБИРСК")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body("items.name", hasItems("Новосибирск"));
+        }
+
+        @Test
+        void shouldCheckIfSearchWorksWithCorrectFullNameInLowerCase() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=новосибирск")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body("items.name", hasItems("Новосибирск"));
+        }
+    }
+
+    @Nested
+    class SearchWithQAndOtherQuery {
+
+        @Test
+        void shouldCheckIfSearchWorksWithQIs3SymbolsAndOtherQuery() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=рск")
+                    .queryParam("сountry_code=ru")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body("items.name", hasItems("Красноярск", "Магнитогорск", "Новосибирск", "Орск", "Усть-Каменогорск"));
+        }
+
+        @Test
+        void shouldCheckIfSearchWorksWithCorrectFullNameInLowerCase() {
+            given()
+                    .spec(requestSpec)
+                    .queryParam("q=рск")
+                    .queryParam("page=2")
+                    // Выполняемые действия
+                    .when()
+                    .get(basePath)
+                    // Проверки
+                    .then().assertThat().statusCode(200)
+                    .and().body("items.name", hasItems("Красноярск", "Магнитогорск", "Новосибирск", "Орск", "Усть-Каменогорск"));
         }
     }
 }
