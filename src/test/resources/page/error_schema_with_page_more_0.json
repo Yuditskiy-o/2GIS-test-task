@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "The root schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": {},
+  "examples": [
+    {
+      "error": {
+        "id": "0d3938e0-cdca-4c12-bfbf-38ff8327ecaf",
+        "message": "Параметр 'page' должен быть больше 0"
+      }
+    }
+  ],
+  "required": [
+    "error"
+  ],
+  "properties": {
+    "error": {
+      "$id": "#/properties/error",
+      "type": "object",
+      "title": "The error schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "id": "0d3938e0-cdca-4c12-bfbf-38ff8327ecaf",
+          "message": "Параметр 'page' должен быть больше 0"
+        }
+      ],
+      "required": [
+        "id",
+        "message"
+      ],
+      "properties": {
+        "id": {
+          "$id": "#/properties/error/properties/id",
+          "type": "string",
+          "title": "The id schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "0d3938e0-cdca-4c12-bfbf-38ff8327ecaf"
+          ]
+        },
+        "message": {
+          "$id": "#/properties/error/properties/message",
+          "type": "string",
+          "title": "The message schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "Параметр 'page' должен быть больше 0"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

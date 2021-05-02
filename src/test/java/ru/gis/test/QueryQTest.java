@@ -7,11 +7,12 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.basePath;
+import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItems;
 
-public class QueryQ {
+public class QueryQTest {
     private final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("https://regions-test.2gis.com")
             .setBasePath("/1.0/regions")

@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
 
-public class QueryCC {
+public class QueryCountryCodeTest {
 
     private final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("https://regions-test.2gis.com")
@@ -27,7 +27,7 @@ public class QueryCC {
     class CountryCodeWithNoArgs {
 
         @Test
-        void shouldCheckIfSearchWorksWhenOnlyCC() {
+        void shouldCheckIfGetErrorWhenOnlyCC() {
             given()
                     .spec(requestSpec)
                     .queryParam("country_code")
@@ -40,7 +40,7 @@ public class QueryCC {
         }
 
         @Test
-        void shouldCheckIfSearchWorksWhenOnlyCCAndSign() {
+        void shouldCheckIfGetErrorWhenCCAndSign() {
             given()
                     .spec(requestSpec)
                     .queryParam("country_code=")
@@ -57,7 +57,7 @@ public class QueryCC {
     class CountryCodeWithListingElementsAndArgs {
 
         @Test
-        void shouldCheckIfGetOnlyRuCities() {
+        void shouldCheckIfSearchWorksWhenOnlyRuCities() {
             given()
                     .spec(requestSpec)
                     .queryParam("country_code=ru")
@@ -70,7 +70,7 @@ public class QueryCC {
         }
 
         @Test
-        void shouldCheckIfGetOnlyKgCities() {
+        void shouldCheckIfSearchWorksWhenOnlyKgCities() {
             given()
                     .spec(requestSpec)
                     .queryParam("country_code=kg")
@@ -83,7 +83,7 @@ public class QueryCC {
         }
 
         @Test
-        void shouldCheckIfGetOnlyKzCities() {
+        void shouldCheckIfSearchWorksWhenOnlyKzCities() {
             given()
                     .spec(requestSpec)
                     .queryParam("country_code=kz")
@@ -96,7 +96,7 @@ public class QueryCC {
         }
 
         @Test
-        void shouldCheckIfGetOnlyCzCities() {
+        void shouldCheckIfSearchWorksWhenOnlyCzCities() {
             given()
                     .spec(requestSpec)
                     .queryParam("country_code=cz")
@@ -135,7 +135,7 @@ public class QueryCC {
         }
 
         @Test
-        void shouldCheckIfGetAllRegionsByDefault() {
+        void shouldCheckIfSearchWorksWithAllRegionsByDefault() {
             given()
                     .spec(requestSpec)
                     .queryParam("page=2")
